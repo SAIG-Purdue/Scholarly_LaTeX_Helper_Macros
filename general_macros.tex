@@ -1,0 +1,51 @@
+%%-----------------------------------------------------------------------------
+%% Helpful package based formatting
+%%-----------------------------------------------------------------------------
+% Create hyperlinked/pdf bookmarked headings (commented out because not happy with special characters)
+\usepackage[pdftex,bookmarks=true,bookmarksnumbered=true,colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,urlcolor=black]{hyperref}
+
+% Force figures to be put in corresponding sections
+\usepackage[section]{placeins}
+
+% Enable proper handling of URLs in text and bibliography entries
+\usepackage{url}
+
+% Enable the use of conditional operations
+\usepackage{etoolbox}
+
+%%-----------------------------------------------------------------------------
+%% Custom Macros for Common file inclusions
+%%-----------------------------------------------------------------------------
+\newcommand{\loadSection}[1]{\input{Sections/#1}}
+
+%%-----------------------------------------------------------------------------
+%% Custom Macros for Managing Section Referencing
+%%-----------------------------------------------------------------------------
+% Custom commands for easy labeling of sections for references
+\newcommand{\newChapter}[2]{\chapter{#1}\label{sec:#2}}
+\newcommand{\newSection}[2]{\section{#1}\label{sec:#2}}
+\newcommand{\newSubSection}[2]{\FloatBarrier\subsection{#1}\label{sec:#2}}
+\newcommand{\newSubSubSection}[2]{\FloatBarrier\subsubsection{#1}\label{sec:#2}}
+\newcommand{\newSubSubSubSection}[2]{\FloatBarrier\paragraph{#1}\label{sec:#2}}
+\newcommand{\newLiteHeader}[1]{\vspace{0.1in}\noindent\textit{\textbf{#1}} \newline}
+
+% Custom Formatted Reference Commands
+\newcommand{\sectionRef}[1]{Section~\ref{sec:#1}}
+\newcommand{\figureRef}[1]{Figure~\ref{fig:#1}}
+\newcommand{\tableRef}[1]{Table~\ref{tab:#1}}
+\newcommand{\appendixRef}[1]{Appendix~\ref{app:#1}}
+
+%%-----------------------------------------------------------------------------
+%% Custom Macros for Contents Lists
+%%-----------------------------------------------------------------------------
+\newcommand{\inventoryItem}[2]{%
+\ifstrempty{#2} % If description is blank don't include the ':'
+    {\item \textbf{#1}}         % Handle no description
+    {\item \textbf{#1}: {#2}}   % Handle description
+}
+
+%%-----------------------------------------------------------------------------
+%% Custom Macros for Working with nubmers
+%%-----------------------------------------------------------------------------
+% Macro for getting the 
+\newcommand{\getint}[1]{\numexpr #1 \relax}
