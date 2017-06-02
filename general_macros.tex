@@ -17,6 +17,7 @@
 %% Custom Macros for Common file inclusions
 %%-----------------------------------------------------------------------------
 \newcommand{\loadSection}[1]{\input{Sections/#1}}
+\newcommand{\dontLoad}[1]{ }
 
 %%-----------------------------------------------------------------------------
 %% Custom Macros for Managing Section Referencing
@@ -45,7 +46,16 @@
 }
 
 %%-----------------------------------------------------------------------------
-%% Custom Macros for Working with nubmers
+%% Custom Macros for Working with numbers
 %%-----------------------------------------------------------------------------
-% Macro for getting the 
+% Let typing "\en" be exactly the same as typing "\ensuremath". 
+\let\en=\ensuremath
+
+% Define a \ve command with two arguments, so if it called with
+%     \ve an
+% it will expand to
+%     {\en{a_1},~\en{a_2},\ \ldots,~\en{a_{n}}}
+\newcommand{\ve}[2]{\en{#1_1},~\en{#1_2},\ \ldots,~\en{#1_{#2}}}
+
+% Macro for getting the integer value of typed out numeric expression
 \newcommand{\getint}[1]{\numexpr #1 \relax}

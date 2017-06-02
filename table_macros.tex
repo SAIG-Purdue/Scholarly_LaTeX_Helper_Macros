@@ -14,38 +14,40 @@
 %% Standard/Package Formatting Value Adjustments
 %%-----------------------------------------------------------------------------
 % Shrink space between captions and figure
-\newcommand{\tabcapspaceshrink}{{\vspace{-18pt}}}
-\newcommand{\tabprespaceshrink}{{\vspace{-18pt}}}
-\newcommand{\tabpostpaceshrink}{{\vspace{-18pt}}}
+\newcommand{\tabcapspaceshrink}{{\vspace{-6pt}}}
+\newcommand{\tabprespaceshrink}{{\vspace{-6pt}}}
+\newcommand{\tabpostpaceshrink}{{\vspace{-6pt}}}
+
+% Adjust the standard table name style
+\renewcommand{\tablename}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize\sf\bfseries Table}
 
 %%-----------------------------------------------------------------------------
-%% Custom Figure Placement Macros
+%% Custom Table Placement Macros
 %%-----------------------------------------------------------------------------
 % Normal Table placement
 % (inputs the tabular section from the provided file)
-% Usage: \puttab{filename}{label}{Caption}
-\newcommand{\puttab}[3]{%
+% Usage: \addTable{filename/label}{caption}
+\newcommand{\addTable}[2]{%
 \tabprespaceshrink
 \begin{table}[!htb]
-\caption{#3}
-\label{tab:#2}
+\caption{\footnotesize\sf #2 \label{tab:#1}}
 \tabcapspaceshrink
-\begin{singlespace}
+\renewcommand{\baselinestretch}{0.95}
 \begin{center}
 \input{Tables/#1}
 \end{center}
-\end{singlespace}
+\renewcommand{\baselinestretch}{1}\normalsize
 \end{table}
 \tabpostpaceshrink
 }
 
 % Table placement as a Horizontal page
 % (inputs the tabular section from the provided file)
-% Usage: \puttabh{filename}{label}{Caption}
+% Usage: \addTableH{filename/label}{caption}
 \newlength{\twidth}
 \newlength{\theight}
 
-\newcommand{\puttabh}[3]{%
+\newcommand{\addTableH}[2]{%
 \setlength{\twidth}{\textwidth}
 \setlength{\theight}{\textheight}
 
@@ -53,16 +55,15 @@
   % The following two lines compensate for what I think is a bug.
   \setlength{\textwidth}{\theight}
   \setlength{\textheight}{\twidth}
-  \caption{#3}
-  \label{tab:#2}
+  \caption{\footnotesize\sf #2 \label{tab:#1}}
   \tabcapspaceshrink
-  \begin{singlespace}
+  \renewcommand{\baselinestretch}{0.95}
   \begin{center}
   \hbox to \textwidth{
     \input{Tables/#1}
   }
   \end{center}
-  \end{singlespace}
+  \renewcommand{\baselinestretch}{1}\normalsize
 \end{sidewaystable}
 }
 
