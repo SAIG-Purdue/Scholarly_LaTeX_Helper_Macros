@@ -1,4 +1,4 @@
-# Scholarly_LaTeX_Helper_Macros
+# Scholarly LaTeX Helper Macros
 
 Collection of clean and helpful custom LaTex macros for simplifying scholarly publication generation. 
 
