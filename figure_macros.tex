@@ -1,0 +1,65 @@
+%%-----------------------------------------------------------------------------
+%% Helpful Custom Macros for managing Figures
+%%-----------------------------------------------------------------------------
+
+%%-----------------------------------------------------------------------------
+%% Required packages
+%%-----------------------------------------------------------------------------
+
+%%-----------------------------------------------------------------------------
+%% Standard/Package Formatting Value Adjustments
+%%-----------------------------------------------------------------------------
+% Shrink space between captions and figure
+\newcommand{\figcapspaceshrink}{{\vspace{-12pt}}}
+
+% Required for including images
+\usepackage[pdftex]{graphicx}
+% Declare the path(s) where your graphic files are
+\graphicspath{{./Figures/}}
+% Declare the extensions so they don't have to be specified each usage
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png,.jpg}
+
+% Allows in-line images
+\usepackage{wrapfig}
+
+% Make figure numbering in captions bold
+\usepackage[labelfont=bf]{caption}
+
+%%-----------------------------------------------------------------------------
+%% Custom Figure Placement Macros
+%%-----------------------------------------------------------------------------
+% Normal figure placement
+% Usage: \putfig{filename}{label}{caption}
+\newcommand{\putfig}[3]{%
+\begin{figure}[!htb]
+\centering
+\includegraphics{#1}
+\figcapspaceshrink
+\caption{#3}
+\label{fig:#2}
+\end{figure}
+}
+
+% Adjustable size figure placement
+% Usage: \putfiga{filename}{label}{caption}
+\newcommand{\putfiga}[4]{%
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=#4]{#1}
+\figcapspaceshrink
+\caption{#3}
+\label{fig:#2}
+\end{figure}
+}
+
+% Wide (full page width) figure placement
+% Usage: \putfigw{filename}{label}{caption}
+\newcommand{\putfigw}[3]{%
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1.0\linewidth]{#1}
+\figcapspaceshrink
+\caption{#3}
+\label{fig:#2}
+\end{figure}
+}
