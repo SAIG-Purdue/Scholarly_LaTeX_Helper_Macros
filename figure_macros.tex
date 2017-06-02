@@ -5,61 +5,86 @@
 %%-----------------------------------------------------------------------------
 %% Required packages
 %%-----------------------------------------------------------------------------
+% Enable useful conditionals
+\usepackage{etoolbox}
+
+% Allows in-line images
+\usepackage{wrapfig}
+
+% Allows large landscape full page figures
+\usepackage{rotating}
+
+% Make figure numbering in captions bold
+\usepackage[labelfont=bf]{caption}
+
+% Required for including images
+%\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
 
 %%-----------------------------------------------------------------------------
 %% Standard/Package Formatting Value Adjustments
 %%-----------------------------------------------------------------------------
 % Shrink space between captions and figure
-\newcommand{\figcapspaceshrink}{{\vspace{-12pt}}}
+\newcommand{\figcapspaceshrink}{{\vspace{-18pt}}}
 
-% Required for including images
-\usepackage[pdftex]{graphicx}
 % Declare the path(s) where your graphic files are
 \graphicspath{{./Figures/}}
 % Declare the extensions so they don't have to be specified each usage
-\DeclareGraphicsExtensions{.pdf,.jpeg,.png,.jpg}
+\DeclareGraphicsExtensions{.jpeg,.png,.jpg,.bmp}
 
-% Allows in-line images
-\usepackage{wrapfig}
-
-% Make figure numbering in captions bold
-\usepackage[labelfont=bf]{caption}
+% Adjust the standard figure name style
+\renewcommand{\figurename}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize\sf\bfseries Figure}
 
 %%-----------------------------------------------------------------------------
 %% Custom Figure Placement Macros
 %%-----------------------------------------------------------------------------
-% Normal figure placement
-% Usage: \putfig{filename}{label}{caption}
-\newcommand{\putfig}[3]{%
+% Custom macro for easily rotating figures
+\newcommand*\rot{\rotatebox{90}}
+
+% Normal figure placement (floating placement)
+% Usage: \addFigure[width]{filename/label}{caption}{optional, trim settings}
+% Optionals: Optional fields must be left as {} in the call if not used
+% Defaults: width = \linewidth
+\newcommand{\addFigure}[4][1.0\linewidth]{%
 \begin{figure}[!htb]
+\footnotesize
 \centering
-\includegraphics{#1}
+\ifstrempty{#4}
+	{\includegraphics[width=#1]{#2}}
+	{\includegraphics[trim=#4, clip, width=#1]{#2}}
 \figcapspaceshrink
-\caption{#3}
-\label{fig:#2}
+\caption{#3 \label{fig:#2}}
 \end{figure}
 }
 
-% Adjustable size figure placement
-% Usage: \putfiga{filename}{label}{caption}
-\newcommand{\putfiga}[4]{%
-\begin{figure}[!htb]
+% Normal figure placement (inline w/ text wrapping)
+% Usage: \insertFigure[width]{filename/label}{caption}{optional, trim settings}
+% Optionals: Optional fields must be left as {} in the call if not used
+% Defaults: width = 0.5 * \textwidth
+\newcommand{\insertFigure}[4][0.5\textwidth]{%
+\begin{wrapfigure}{R}{#1}
+\footnotesize
 \centering
-\includegraphics[width=#4]{#1}
+\ifstrempty{#4}
+	{\includegraphics[width=#1]{#2}}
+	{\includegraphics[trim=#4, clip, width=#1]{#2}}
 \figcapspaceshrink
-\caption{#3}
-\label{fig:#2}
-\end{figure}
+\caption{#3 \label{fig:#2}}
+\end{wrapfigure}
 }
 
-% Wide (full page width) figure placement
-% Usage: \putfigw{filename}{label}{caption}
-\newcommand{\putfigw}[3]{%
-\begin{figure}[!htb]
+% Full Landscape figure placement
+% Usage: \addFigureH{filename/label}{caption}{optional, trim settings}
+% Optionals: Optional fields must be left as {} in the call if not used
+\newcommand{\addFigureH}[3]{%
+\begin{sidewaysfigure}[!htb]
+\footnotesize
 \centering
-\includegraphics[width=1.0\linewidth]{#1}
+\ifstrempty{#3}
+	{\includegraphics[width=1.0\linewidth]{#1}}
+	{\includegraphics[trim=#3, clip, width=1.0\linewidth]{#1}}
 \figcapspaceshrink
-\caption{#3}
-\label{fig:#2}
-\end{figure}
+\caption{#2 \label{fig:#1}}
+\end{sidewaysfigure}
 }
+
