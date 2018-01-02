@@ -6,7 +6,8 @@
 %% Required packages
 %%-----------------------------------------------------------------------------
 % Enable more vibrant colors to be used
-\usepackage[dvipsnames]{xcolor}
+% Uncomment this if you aren't also using the general macros file
+%\usepackage[dvipsnames]{xcolor}
 
 %%-----------------------------------------------------------------------------
 %% Helpful highlighting/noting macros
@@ -15,8 +16,11 @@
 \newcommand{\ignore}[1]{}
 \newcommand{\note}[1]{\textbf{\textcolor{blue}{NOTE: #1}}}
 \newcommand{\todo}[1]{\textbf{\textcolor{BrickRed}{TODO: #1}}}
-\newcommand{\refupdate}[1]{\textbf{\textcolor{Plum}{(REF: #1)}}}
+\newcommand{\updateRef}[1]{\textbf{\textcolor{Plum}{(REF:#1)}}}
+\newcommand{\needRef}{\textbf{\textcolor{Plum}{(Need Ref!)}}}
 
-% Author specific notation macros (Need to uncomment and update names to fit)
-%\newcommand{\authorOne}[1]{\textbf{\textcolor{MidnightBlue}{TODO(AuthorOne): #1}}}
-%\newcommand{\authorTwo}[1]{\textbf{\textcolor{ForestGreen}{TODO(AuthorTwo): #1}}}
+% Author specific notation macros (Need to update names to fit)
+\newcommand{\authorOne}[1]{\textbf{\textcolor{ForestGreen}{TODO(Author One): #1}}}
+\newcommand{\authorTwo}[1]{\textbf{\textcolor{Purple}{TODO(Author Two): #1}}}
+\newcommand{\authorThree}[1]{\textbf{\textcolor{MidnightBlue}{TODO(Author Three): #1}}}
+

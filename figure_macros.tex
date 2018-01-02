@@ -18,19 +18,18 @@
 \usepackage[labelfont=bf]{caption}
 
 % Required for including images
-%\usepackage[pdftex]{graphicx}
 \usepackage{graphicx}
 
 %%-----------------------------------------------------------------------------
 %% Standard/Package Formatting Value Adjustments
 %%-----------------------------------------------------------------------------
 % Shrink space between captions and figure
-\newcommand{\figcapspaceshrink}{{\vspace{-18pt}}}
+\newcommand{\figureCaptionSpaceShrink}{{\vspace{-6pt}}}
 
 % Declare the path(s) where your graphic files are
 \graphicspath{{./Figures/}}
 % Declare the extensions so they don't have to be specified each usage
-\DeclareGraphicsExtensions{.jpeg,.png,.jpg,.bmp}
+\DeclareGraphicsExtensions{.jpeg,.png,.jpg}
 
 % Adjust the standard figure name style
 \renewcommand{\figurename}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize\sf\bfseries Figure}
@@ -41,21 +40,97 @@
 % Custom macro for easily rotating figures
 \newcommand*\rot{\rotatebox{90}}
 
+%%-----------------------------------------------------------------------------
+%% Floating Figure Placement Macros
+%%-----------------------------------------------------------------------------
+
 % Normal figure placement (floating placement)
 % Usage: \addFigure[width]{filename/label}{caption}{optional, trim settings}
 % Optionals: Optional fields must be left as {} in the call if not used
 % Defaults: width = \linewidth
-\newcommand{\addFigure}[4][1.0\linewidth]{%
+\newcommand{\addFigure}[4][0.96\linewidth]{%
 \begin{figure}[!htb]
+{\vspace{-12pt}}
 \footnotesize
 \centering
-\ifstrempty{#4}
-	{\includegraphics[width=#1]{#2}}
-	{\includegraphics[trim=#4, clip, width=#1]{#2}}
-\figcapspaceshrink
+\ifstrempty{#4}%
+	{\includegraphics[width=#1]{#2}}%
+	{\includegraphics[trim=#4, clip, width=#1]{#2}}%
+\figureCaptionSpaceShrink
 \caption{#3 \label{fig:#2}}
+{\vspace{-6pt}}
 \end{figure}
 }
+
+
+% Full Landscape figure placement
+% Usage: \insertFigureh{filename/label}{caption}{optional, trim settings}
+% Optionals: Optional fields must be left as {} in the call if not used
+\newcommand{\addFigureH}[3]{%
+\begin{sidewaysfigure}[!htb]
+\footnotesize
+\centering
+\ifstrempty{#3}%
+	{\includegraphics[width=1.0\linewidth]{#1}}%
+	{\includegraphics[trim=#3, clip, width=1.0\linewidth]{#1}}%
+\figureCaptionSpaceShrink
+\caption{#2 \label{fig:#1}}
+\end{sidewaysfigure}
+}
+
+
+% Double figure placement (floating placement)
+% Usage: \addFigureD{filename 1/label 1}{filename 2/label 2}{main caption}{sub caption 1}{sub caption 2}{optional, trim settings}
+% Optionals: Optional fields must be left as {} in the call if not used
+% Defaults: width = \linewidth
+\newcommand{\addFigureD}[6]{%
+\begin{figure*}[!hbt]
+\footnotesize
+\centering
+\begin{tabular}{cc}
+% Sub figure insertions
+\ifstrempty{#6}%
+	{\includegraphics[width=0.47\linewidth]{#1} & \includegraphics[width=0.47\linewidth]{#2} \\}%
+	{\includegraphics[trim=#4, clip, width=0.47\linewidth]{#1} & \includegraphics[trim=#4, clip, width=0.47\linewidth]{#2} \\}%
+% Figure sub captions
+(a) #4 & (b) #5 \\
+\end{tabular}
+\figureCaptionSpaceShrink
+\caption{#3 \label{fig:#1}\label{fig:#2}}
+{\vspace{-12pt}}
+\end{figure*}
+}
+
+
+% Quad figure placement (floating placement) 
+% Due to intrinsic 9 parameter limit and the nature of a quad-plot -> full width and no input file trimming.
+% Usage: \addFigureQ{filename 1}{filename 2/label 2}{filename 3/label 3}{filename 4/label 4}{main caption}{sub caption 1}{sub caption 2}{sub caption 3}{sub caption 4}
+% Optionals: Optional fields must be left as {} in the call if not used
+% Defaults: width = \linewidth
+\newcommand{\addFigureQ}[9]{%
+\begin{figure*}[!htb]
+\footnotesize
+\centering
+\begin{tabular}{cc}
+% Sub figure insertions for top 2
+\includegraphics[width=0.45\linewidth]{#1} & \includegraphics[width=0.45\linewidth]{#2} \\
+% Figure sub captions for top 2
+(a) #6 & (b) #7 \\
+% Sub figure insertions for bottom 2
+\includegraphics[width=0.45\linewidth]{#3} & \includegraphics[width=0.45\linewidth]{#4} \\
+% Figure sub captions for bottom 2
+(c) #8 & (d) #9 \\
+\end{tabular}
+\figureCaptionSpaceShrink
+\caption{#5 \label{fig:#1}\label{fig:#2}\label{fig:#3}\label{fig:#4}}
+{\vspace{-12pt}}
+\end{figure*}
+}
+
+
+%%-----------------------------------------------------------------------------
+%% Wrapped Figure Placement Macros
+%%-----------------------------------------------------------------------------
 
 % Normal figure placement (inline w/ text wrapping)
 % Usage: \insertFigure[width]{filename/label}{caption}{optional, trim settings}
@@ -65,26 +140,57 @@
 \begin{wrapfigure}{R}{#1}
 \footnotesize
 \centering
-\ifstrempty{#4}
-	{\includegraphics[width=#1]{#2}}
-	{\includegraphics[trim=#4, clip, width=#1]{#2}}
-\figcapspaceshrink
+\ifstrempty{#4}%
+	{\includegraphics[width=#1]{#2}}%
+	{\includegraphics[trim=#4, clip, width=#1]{#2}}%
+\figureCaptionSpaceShrink
 \caption{#3 \label{fig:#2}}
 \end{wrapfigure}
 }
 
-% Full Landscape figure placement
-% Usage: \addFigureH{filename/label}{caption}{optional, trim settings}
+% Double figure placement (floating placement)
+% Usage: \addFigureD{filename 1/label 1}{filename 2/label 2}{main caption}{sub caption 1}{sub caption 2}{optional, trim settings}
 % Optionals: Optional fields must be left as {} in the call if not used
-\newcommand{\addFigureH}[3]{%
-\begin{sidewaysfigure}[!htb]
+% Defaults: width = \linewidth
+\newcommand{\insertFigureD}[6]{%
+\begin{figure}[!htb]
 \footnotesize
 \centering
-\ifstrempty{#3}
-	{\includegraphics[width=1.0\linewidth]{#1}}
-	{\includegraphics[trim=#3, clip, width=1.0\linewidth]{#1}}
-\figcapspaceshrink
-\caption{#2 \label{fig:#1}}
-\end{sidewaysfigure}
+\begin{tabular}{cc}
+% Sub figure insertions
+\ifstrempty{#6}%
+	{\includegraphics[width=0.45\linewidth]{#1} & \includegraphics[width=0.45\linewidth]{#2} \\}%
+	{\includegraphics[trim=#4, clip, width=0.45\linewidth]{#1} & \includegraphics[trim=#4, clip, width=0.45\linewidth]{#2} \\}%
+% Figure sub captions
+(a) #4 & (b) #5 \\
+\end{tabular}
+\figureCaptionSpaceShrink
+\caption{#3 \label{fig:#1}\label{fig:#2}}
+{\vspace{-12pt}}
+\end{figure}
 }
 
+% Quad figure placement (floating placement) 
+% Due to intrinsic 9 parameter limit and the nature of a quad-plot -> full width and no input file trimming.
+% Usage: \addFigureQ{filename 1}{filename 2/label 2}{filename 3/label 3}{filename 4/label 4}{main caption}{sub caption 1}{sub caption 2}{sub caption 3}{sub caption 4}
+% Optionals: Optional fields must be left as {} in the call if not used
+% Defaults: width = \linewidth
+\newcommand{\insertFigureQ}[9]{%
+\begin{figure}[!htb]
+\footnotesize
+\centering
+\begin{tabular}{cc}
+% Sub figure insertions for top 2
+\includegraphics[width=0.45\linewidth]{#1} & \includegraphics[width=0.45\linewidth]{#2} \\
+% Figure sub captions for top 2
+(a) #6 & (b) #7 \\
+% Sub figure insertions for bottom 2
+\includegraphics[width=0.45\linewidth]{#3} & \includegraphics[width=0.45\linewidth]{#4} \\
+% Figure sub captions for bottom 2
+(c) #8 & (d) #9 \\
+\end{tabular}
+\figureCaptionSpaceShrink
+\caption{#5 \label{fig:#1}\label{fig:#2}\label{fig:#3}\label{fig:#4}}
+{\vspace{-12pt}}
+\end{figure}
+}

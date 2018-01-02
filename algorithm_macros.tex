@@ -1,0 +1,72 @@
+%%-----------------------------------------------------------------------------
+%% Helpful Custom Macros for managing Algorithm Objects/Floats
+%%-----------------------------------------------------------------------------
+
+%%-----------------------------------------------------------------------------
+%% Required packages
+%%-----------------------------------------------------------------------------
+% Enable useful conditionals
+\usepackage{etoolbox}
+
+% Required for colored syntax highlighting of code
+\usepackage{minted}
+
+% Required for cleanly handling included code file type checking
+\usepackage{xstring}
+
+% Required for typical psuedocode style algorithm floats
+\usepackage[linesnumbered, commentsnumbered, ruled]{algorithm2e}
+
+%%-----------------------------------------------------------------------------
+%% Standard/Package Formatting Value Adjustments
+%%-----------------------------------------------------------------------------
+% Use a print friendly color scheme for syntax highlighting
+\usemintedstyle{borland}
+
+% Shrink space between captions and figure
+\newcommand{\algcapspaceshrink}{{\vspace{-6pt}}}
+
+% Adjust the standard algorithm environment name style used by the algorithm2e package
+\SetAlgorithmName{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize\sf\bfseries Algorithm}{List of Algorithms}
+
+% Adjust the standard listing environment name style and list to convert to being for algorithms via the minted code highlighting
+\DeclareCaptionLabelFormat{code}{\renewcommand{\baselinestretch}{1.0}\vspace{-0.0in}\footnotesize\sf\bfseries Source Code #2}
+\captionsetup[listing]{labelformat=code}
+\renewcommand{\listoflistingscaption}{List of Source Codes}
+
+% Convenient Filename Helper Macros
+\newcommand{\getBasename}[2][\myBasename]{\StrBefore{#2}{.}[#1]}
+\newcommand{\getExtension}[2][\myExtension]{\StrBehind{#2}{.}[#1]}
+
+%%-----------------------------------------------------------------------------
+%% Code file based Algorithm Placement Macros
+%%-----------------------------------------------------------------------------
+%  Algorithm placement (floating placement, imported code file)
+% Usage: \newAlgorithm[minted options]{filename}{caption}
+\newcommand{\addCode}[3][frame=lines, fontsize=\footnotesize,linenos, tabsize=2, numbersep=6pt, xleftmargin=12pt]{%
+\begin{listing}[!htb]
+\getExtension[\algExtension]{#2}% Need to store value in temp 'variable' due to xstring evaluation limits
+\getBasename[\algBasename]{#2}% Need to store value in temp 'variable' due to xstring evaluation limits
+\IfStrEqCase{\algExtension}{%
+    {c}{\inputminted[#1]{c}{Algorithms/#2}}%
+    {h}{\inputminted[#1]{c}{Algorithms/#2}}%
+    {cpp}{\inputminted[#1]{cpp}{Algorithms/#2}}%
+    {py}{\inputminted[#1]{python}{Algorithms/#2}}%
+    {m}{\inputminted[#1]{matlab}{Algorithms/#2}}%
+}%
+\algcapspaceshrink%
+\caption{#3 \label{alg:\algBasename}}%
+\end{listing}%
+}
+
+%%-----------------------------------------------------------------------------
+%% Pseudo-code & Pure Algorithm Placement Macros
+%%-----------------------------------------------------------------------------
+%  Algorithm placement (floating placement, imported algorithm description file)
+% Usage: \newAlgorithm{filename}{caption}
+\newcommand{\addAlgorithm}[2]{%
+\begin{algorithm}[!htb]
+\input{Algorithms/#1}
+\caption{#2 \label{alg:#1}}
+\end{algorithm}
+}

@@ -13,28 +13,70 @@
 % Enable the use of conditional operations
 \usepackage{etoolbox}
 
+% Allow stripped tablular sections and fancy colors for
+\usepackage[dvipsnames,table]{xcolor}
+
+% Allow block commenting for commenting out sections of text via the 'comment' environment
+\usepackage{comment}
+
+% Allow xspace to be used for handling most of the spacing issues around custom macros
+\usepackage{xspace}
+
+% Minimize orphans and widows
+\usepackage[all]{nowidow}
+
 %%-----------------------------------------------------------------------------
 %% Custom Macros for Common file inclusions
 %%-----------------------------------------------------------------------------
-\newcommand{\loadSection}[1]{\input{Sections/#1}}
-\newcommand{\dontLoad}[1]{ }
+% Macro for loading a 'sections' tex file for the abstract
+% usage: \loadAbstract{filename}
+\newcommand{\loadAbstract}[1]{\input{Sections/#1}}
+
+% Macro for loading a 'sections' tex file as a new Chapter for easier referencing
+% usage: \loadChapter{filename/label}{Chapter Header Text}
+\newcommand{\loadChapter}[2]{%
+\newChapter{#2}{#1}%
+\input{Sections/#1}%
+}
+
+% Macro for loading a 'sections' tex file as a new Section for easier referencing
+% usage: \loadSection{filename/label}{Section Header Text}
+\newcommand{\loadSection}[2]{%
+\newSection{#2}{#1}%
+\input{Sections/#1}%
+}
+
+% Macro for loading a 'sections' tex file as a new Sub-Section for easier referencing
+% usage: \loadSubSection{filename/label}{Sub-Section Header Text}
+\newcommand{\loadSubSection}[2]{%
+\newSubSection{#2}{#1}%
+\input{Sections/#1}%
+}
 
 %%-----------------------------------------------------------------------------
-%% Custom Macros for Managing Section Referencing
+%% Custom Macros for Managing Sections and Referencing
 %%-----------------------------------------------------------------------------
 % Custom commands for easy labeling of sections for references
 \newcommand{\newChapter}[2]{\chapter{#1}\label{sec:#2}}
 \newcommand{\newSection}[2]{\section{#1}\label{sec:#2}}
-\newcommand{\newSubSection}[2]{\FloatBarrier\subsection{#1}\label{sec:#2}}
-\newcommand{\newSubSubSection}[2]{\FloatBarrier\subsubsection{#1}\label{sec:#2}}
-\newcommand{\newSubSubSubSection}[2]{\FloatBarrier\paragraph{#1}\label{sec:#2}}
-\newcommand{\newLiteHeader}[1]{\vspace{0.1in}\noindent\textit{\textbf{#1}} \newline}
+\newcommand{\newSubSection}[2]{\subsection{#1}\label{sec:#2}}
+\newcommand{\newSubSubSection}[2]{\subsubsection{#1}\label{sec:#2}}
+\newcommand{\newSubSubSubSection}[2]{\paragraph{#1}\label{sec:#2}}
+\newcommand{\newLiteHeader}[2]{\noindent\textbf{\textit{#1:}}\label{sec:#2}\\}
 
 % Custom Formatted Reference Commands
 \newcommand{\sectionRef}[1]{Section~\ref{sec:#1}}
 \newcommand{\figureRef}[1]{Figure~\ref{fig:#1}}
 \newcommand{\tableRef}[1]{Table~\ref{tab:#1}}
+\newcommand{\algorithmRef}[1]{Algorithm~\ref{alg:#1}}
+\newcommand{\lineRef}[1]{Line~\ref{lin:#1}}
 \newcommand{\appendixRef}[1]{Appendix~\ref{app:#1}}
+
+% Custom macro for consistently labeling lines in algorithms
+\newcommand{\lineLabel}[1]{\label{lin:#1}}
+
+% Custom Macro for formatting Footnotes
+\newcommand{\newFootnote}[1]{\footnote{\renewcommand{\baselinestretch}{1.0}\scriptsize #1}}
 
 %%-----------------------------------------------------------------------------
 %% Custom Macros for Contents Lists
@@ -57,5 +99,5 @@
 %     {\en{a_1},~\en{a_2},\ \ldots,~\en{a_{n}}}
 \newcommand{\ve}[2]{\en{#1_1},~\en{#1_2},\ \ldots,~\en{#1_{#2}}}
 
-% Macro for getting the integer value of typed out numeric expression
+% Macro for getting the 
 \newcommand{\getint}[1]{\numexpr #1 \relax}
